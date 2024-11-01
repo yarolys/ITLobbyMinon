@@ -1,9 +1,9 @@
 # тут создаём экземпляр бота, переменные итд
 import os
 
-from aiogram import Bot, F, Router
-from loguru import logger
+from aiogram import Bot
 from dotenv import load_dotenv
+from loguru import logger
 
 
 load_dotenv()
@@ -21,5 +21,4 @@ bot = Bot(
 )
 BOT_ADMIN_ID = int(os.getenv('BOT_ADMIN_ID'))
 
-
-
+DATABASE_URL = 'database.db'

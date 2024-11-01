@@ -181,4 +181,5 @@ Temporary Items
 
 log.log
 /pg_data/
-!/prod.env
+*.db
+*.env
