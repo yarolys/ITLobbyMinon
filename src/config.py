@@ -21,4 +21,3 @@ bot = Bot(
 )
 BOT_ADMIN_ID = int(os.getenv('BOT_ADMIN_ID'))
 
-DATABASE_URL = 'database.db'

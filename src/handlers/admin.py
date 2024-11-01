@@ -7,7 +7,7 @@ from src.database.connection import db_session
 from src.database.repository.button import add_button, remove_button
 from src.database.repository.welcomemessage import get_welcome_message_text, \
     update_welcome_message
-from src.keyboards.admin import working_with_buttons_kb
+from src.utils.keyboards import working_with_buttons_kb
 from src.states.admin import FSM_admin_panel, FSM_DynamicButtons
 import asyncio
 

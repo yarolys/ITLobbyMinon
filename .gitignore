@@ -183,3 +183,4 @@ log.log
 /pg_data/
 *.db
 *.env
+/test.py
