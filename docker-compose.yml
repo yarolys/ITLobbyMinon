@@ -1,0 +1,8 @@
+services:
+  bot:
+    command: sh -c "alembic upgrade head && python3 run.py"
+    env_file: .env
+    build: .
+    volumes:
+      - ./db_data:/app/db_data
+    restart: always
