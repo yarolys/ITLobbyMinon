@@ -1,10 +1,8 @@
 from aiogram import F, Router
-from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, \
-    CallbackQuery
 from aiogram.fsm.context import FSMContext
-from src.config import BOT_ADMIN_ID, logger
-from src.states.admin import FSM_admin_panel, FSM_DynamicButtons
-import asyncio
+from aiogram.types import CallbackQuery, Message
+
+from src.states.admin import FSM_DynamicButtons, FSM_admin_panel
 
 router = Router()
 

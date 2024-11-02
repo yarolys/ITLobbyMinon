@@ -3,7 +3,7 @@ from datetime import UTC, datetime
 from sqlalchemy import BigInteger, select
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.chemas import UserSchema
+from src.schemas import UserSchema
 from src.database.connection import Base, async_session_maker
 
 

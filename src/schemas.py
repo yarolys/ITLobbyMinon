@@ -12,7 +12,7 @@ class ButtonTypeEnum(str, enum.Enum):
 class KbButtonSchema(BaseModel):
     id: int
     name: str
-    url: str
+    url: HttpUrl
     type: ButtonTypeEnum
 
 

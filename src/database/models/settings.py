@@ -1,7 +1,7 @@
 from sqlalchemy import update
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.chemas import SettingsSchema
+from src.schemas import SettingsSchema
 from src.database.connection import Base, async_session_maker
 
 

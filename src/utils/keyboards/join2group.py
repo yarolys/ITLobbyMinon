@@ -1,6 +1,6 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from random import sample
-from src.chemas import ButtonTypeEnum as BTE
+from src.schemas import ButtonTypeEnum as BTE
 from src.database.models import DbButton, DbSettings
 
 
