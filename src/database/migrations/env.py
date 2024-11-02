@@ -41,7 +41,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = config.get_main_option(os.getenv("DATABASE_URL"))
+    url = config.get_main_option('sqlite:///db_data/database.db')
     context.configure(
         url=url,
         target_metadata=target_metadata,
