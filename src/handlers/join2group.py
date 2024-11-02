@@ -1,16 +1,23 @@
+from venv import logger
+
 from aiogram import F, Router
 from aiogram.types import Message
-
-from src.database import repository
-from src.keyboards.join2group import welcome_message_kb
+from src.utils.welcome_message import configure_welcome_message
+from src.utils.keyboards.join2group import welcome_keyboard
 
 router = Router()
 
 
 @router.message(F.new_chat_members)
 async def welcome_new_member(message: Message):
-    welcome_message = repository.get_welcome_message_text(message)  # TODO: Fix
-    await message.answer(
-        text=welcome_message,
-        reply_markup=welcome_message_kb(),
-    )
+    logger.debug(f'Пользователь {message.from_user.full_name} вступил в группу')
+    for new_member in message.new_chat_members:
+        await message.answer(
+            text=(await configure_welcome_message(
+                user_full_name=new_member.full_name,
+                username=new_member.username,
+                user_id=new_member.id)
+            ),
+            reply_markup=(await welcome_keyboard())
+        )
+
