@@ -5,21 +5,22 @@ from aiogram.fsm.context import FSMContext
 
 from src.config import logger
 from src.config import BOT_ADMIN_ID
-from src.database.models import User
+from src.database.models import DbUser
+from src.utils.keyboards.admin import admin_panel_kb
+
 router = Router()
 
 
-# является человек админом или нет если нет только для админа
-
-@router.message(Command('start'))
+@router.message(Command('start') and F.chat.type == 'private')
 @router.message(F.text == 'Вернуться в меню')
 async def start(message: Message, state: FSMContext):
-    if not await User.get_user(user_id=message.from_user.id):
-        await User.add_user(
+    if not await DbUser.get_user(user_id=message.from_user.id):
+        await DbUser.add_user(
             user_id=message.from_user.id,
             full_name=message.from_user.first_name
         )
-        logger.debug(f'Пользователь({message.from_user.full_name}) c id: {message.from_user.id} добавлен в базу данных')
+        logger.debug(
+            f'Пользователь({message.from_user.full_name}) c id: {message.from_user.id} добавлен в базу данных')
 
         await message.answer(
             'Привет, ты новенький, видимо, этот бот доступен только админам'
@@ -29,18 +30,9 @@ async def start(message: Message, state: FSMContext):
         await message.answer(
             'Повторюсь, тебе сюда низя'
         )
-    if message.from_user.id == BOT_ADMIN_ID and message.chat.type == 'private':
-        ...
-        # тута отправляем клавиатуру админской панели
-    #
-    # if message.chat.type == 'private' and message.from_user.id == BOT_ADMIN_ID:
-    #     await message.answer(
-    #         text='Салам пополам!\nТут ты короче можешь настроить приветственное сообщение',
-    #         reply_markup=admin_panel_kb
-    #     )
-    # else:
-    #     await message.answer(
-    #         text='Ты конечно красавчик, что хочешь воспользоваться ботом, но доступ к нему есть только'
-    #              'у владельца - @KandyBobby'
-    #     )
-    # await state.clear()
+    if message.from_user.id == BOT_ADMIN_ID:
+        await message.answer(
+            'Добро пожаловать в меню администратора!',
+            reply_markup=admin_panel_kb
+        )
+        await state.clear()

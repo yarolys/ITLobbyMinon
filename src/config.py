@@ -2,6 +2,7 @@
 import os
 
 from aiogram import Bot
+from aiogram.client.default import DefaultBotProperties
 from dotenv import load_dotenv
 from loguru import logger
 
@@ -17,7 +18,8 @@ logger.add(
 
 TOKEN = os.getenv('TOKEN')
 bot = Bot(
-        token=TOKEN
+        token=TOKEN,
+        default=DefaultBotProperties(parse_mode='HTML')
 )
 BOT_ADMIN_ID = int(os.getenv('BOT_ADMIN_ID'))
 

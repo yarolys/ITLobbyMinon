@@ -10,6 +10,7 @@ admin_panel_kb = ReplyKeyboardMarkup(
          KeyboardButton(text='динамические кнопки')]
     ],
     resize_keyboard=True)
+
 edit_buttons_kb = ReplyKeyboardMarkup(
     resize_keyboard=True,
     keyboard=[
