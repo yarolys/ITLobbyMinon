@@ -19,5 +19,8 @@ async def welcome_keyboard():
             dynamic_buttons.append(kb_button)
     for kb_button in sample(dynamic_buttons, min(amount_dynamic_buttons, len(dynamic_buttons))):
         keyboard.button(text=kb_button.name, url=str(kb_button.url))
+    if not buttons:
+        return None
     keyboard.adjust(1)
+
     return keyboard.as_markup()
