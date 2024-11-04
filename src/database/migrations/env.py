@@ -3,14 +3,14 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-
+from dotenv import load_dotenv
 from alembic import context
 from sqlalchemy.ext.asyncio import create_async_engine
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-
+load_dotenv()
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
@@ -45,7 +45,6 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-
     context.configure(
         url=os.getenv('SQLALCHEMY_URL'),
         target_metadata=target_metadata,
