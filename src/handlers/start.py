@@ -11,8 +11,7 @@ from src.utils.keyboards.admin import admin_panel_kb
 router = Router()
 
 
-@router.message(Command('start') and F.chat.type == 'private')
-@router.message(F.text == 'Вернуться в меню')
+@router.message(Command('start'), F.chat.type == 'private')
 async def start(message: Message, state: FSMContext):
     if not await DbUser.get_user(user_id=message.from_user.id):
         await DbUser.add_user(
@@ -26,13 +25,8 @@ async def start(message: Message, state: FSMContext):
             'Привет, ты новенький, видимо, этот бот доступен только админам'
             'Когда-нибудь потом мы будем через него делать рассылки'
         )
-    elif message.from_user.id != BOT_ADMIN_ID:
+    else:
         await message.answer(
-            'Повторюсь, тебе сюда низя'
+            'Когда добавим - будет рассылка)) Жди)'
         )
-    if message.from_user.id == BOT_ADMIN_ID:
-        await message.answer(
-            'Добро пожаловать в меню администратора!',
-            reply_markup=admin_panel_kb
-        )
-        await state.clear()
+    await message.delete()
