@@ -181,7 +181,6 @@ Temporary Items
 
 log.log
 /pg_data/
-/db_data/
 *.db
 *.env
 /test.py
