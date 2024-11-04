@@ -14,10 +14,10 @@ async def welcome_keyboard():
     dynamic_buttons = []
     for kb_button in buttons:
         if kb_button.type == BTE.static:
-            keyboard.button(text=kb_button.name, url=kb_button.url)
+            keyboard.button(text=kb_button.name, url=str(kb_button.url))
         else:
             dynamic_buttons.append(kb_button)
-    for kb_button in sample(dynamic_buttons, amount_dynamic_buttons):
-        keyboard.button(text=kb_button.name, url=kb_button.url)
+    for kb_button in sample(dynamic_buttons, min(amount_dynamic_buttons, len(dynamic_buttons))):
+        keyboard.button(text=kb_button.name, url=str(kb_button.url))
     keyboard.adjust(1)
     return keyboard.as_markup()
