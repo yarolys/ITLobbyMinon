@@ -9,7 +9,7 @@ from src.database.connection import Base, async_session_maker
 
 class User(Base):
     __tablename__ = 'users'
-    id: Mapped[int] = mapped_column(BigInteger, nullable=True, primary_key=True)
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True)
     full_name: Mapped[str] = mapped_column(nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         nullable=False, default=datetime.now

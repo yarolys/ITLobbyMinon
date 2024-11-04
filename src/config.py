@@ -1,4 +1,3 @@
-# тут создаём экземпляр бота, переменные итд
 import os
 
 from aiogram import Bot
