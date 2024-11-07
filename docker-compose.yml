@@ -1,8 +1,18 @@
+version: '3.8'
+
 services:
-  bot:
-    command: sh -c "alembic upgrade head && python3 run.py"
-    env_file: .env
-    build: .
+  db:
+    image: postgres:latest  
+    container_name: postgres-container  
+    environment:
+      POSTGRES_USER: yarolys
+      POSTGRES_PASSWORD: Vlad1000000
+      POSTGRES_DB: database.db
     volumes:
-      - ./db_data:/app/db_data
-    restart: always
+      - postgres_data:/var/lib/postgresql/data  
+    ports:
+      - "5432:5432"  
+
+volumes:
+  postgres_data:
+    driver: local
