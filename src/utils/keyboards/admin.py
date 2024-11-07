@@ -14,7 +14,8 @@ admin_panel_kb = ReplyKeyboardMarkup(
 edit_buttons_kb = ReplyKeyboardMarkup(
     resize_keyboard=True,
     keyboard=[
-        [KeyboardButton(text='Удалить лишние кнопки'), KeyboardButton(text='Добавить новую кнопку')],
+        [KeyboardButton(text='Получить список всех кнопок')],
+        [KeyboardButton(text='Удалить лишние кнопки'), KeyboardButton(text='Добавить динамическую кнопку')],
         [KeyboardButton(text='Вернуться в меню')]
     ]
 )
@@ -23,7 +24,7 @@ working_with_buttons_kb = ReplyKeyboardMarkup(
         resize_keyboard=True,
         keyboard=[
             [KeyboardButton(text='Получить список всех кнопок')],
-            [KeyboardButton(text='Удалить лишние кнопки'), KeyboardButton(text='Добавить новую кнопку')],
+            [KeyboardButton(text='Удалить лишние кнопки'), KeyboardButton(text='Добавить статическую кнопку')],
             [KeyboardButton(text='Вернуться в меню')]
         ]
 )
