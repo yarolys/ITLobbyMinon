@@ -28,7 +28,8 @@ async def start(message: Message, state: FSMContext):
     else:
         if message.chat.type == 'private' and message.from_user.id == BOT_ADMIN_ID:
             await message.answer(
-                text = 'Привет!n\Тут ты можешь настроить приветственное сообщение',
+                text = 'Привет! '
+                       'Тут ты можешь настроить приветственное сообщение',
                 reply_markup = admin_panel_kb
             )
     await message.delete()
