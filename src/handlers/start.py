@@ -22,11 +22,14 @@ async def start(message: Message, state: FSMContext):
             f'Пользователь({message.from_user.full_name}) c id: {message.from_user.id} добавлен в базу данных')
 
         await message.answer(
-            'Привет, ты новенький, видимо, этот бот доступен только админам'
+            'Привет, ты новенький, видимо, этот бот доступен только админам '
             'Когда-нибудь потом мы будем через него делать рассылки'
         )
     else:
-        await message.answer(
-            'Когда добавим - будет рассылка)) Жди)'
-        )
+        if message.chat.type == 'private' and message.from_user.id == BOT_ADMIN_ID:
+            await message.answer(
+                text = 'Привет! '
+                       'Тут ты можешь настроить приветственное сообщение',
+                reply_markup = admin_panel_kb
+            )
     await message.delete()

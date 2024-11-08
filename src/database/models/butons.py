@@ -35,5 +35,10 @@ class Button(Base):
     @classmethod
     async def delete_button(cls, button_id: int):
         async with async_session_maker() as session:
-            await session.execute(delete(cls).where(cls.id == button_id))
-            await session.commit()
+            button = await session.execute(select(cls).where(cls.id == button_id))
+            button = button.scalars().first()
+            if button:
+                await session.execute(delete(cls).where(cls.id == button_id))
+                await session.commit()
+                return True
+            return False
