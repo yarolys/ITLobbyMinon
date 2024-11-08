@@ -12,7 +12,7 @@ from src.utils.welcome_message import configure_welcome_message
 from src.database.models import DbSettings
 
 import aiohttp
-
+import random
 
 router = Router()
 
@@ -60,7 +60,6 @@ async def handle_new_welcome_message(message: Message, state: FSMContext):
     await state.clear()
 
 
-# Работа с динамическими кнопками
 @router.message(F.text == 'динамические кнопки')
 async def dynamic_buttons_menu(message: Message):
     if message.from_user.id != BOT_ADMIN_ID:
@@ -85,17 +84,27 @@ async def back_to_main(message: Message):
 
 
 @router.message(F.text == 'Установить количество динамических кнопок')
-async def dynamic_buttons(message: Message):
+async def dynamic_buttons(message: Message, state: FSMContext):
     if message.from_user.id != BOT_ADMIN_ID:
         await message.answer('Только для администратора')
         await message.delete()
         return
-    ...
+    await message.answer('Введите количество динамических кнопок')
+    await state.set_state(FSM_admin_panel.get_amount_of_dynamic_buttons)
 
 
 @router.message(FSM_admin_panel.get_amount_of_dynamic_buttons)
-async def get_amount_of_dynamic_buttons():
-    ...
+async def get_amount_of_dynamic_buttons(message: Message, state: FSMContext):
+    try:
+        amount = int(message.text)
+        if amount <= 0:
+            await message.answer('Введите положительное число.')
+            return
+        await state.update_data(amount_of_buttons=amount)
+        await message.answer(f"Количество динамических кнопок установлено на {amount}.")
+        await state.set_state(None)
+    except ValueError:
+        await message.answer("Пожалуйста введите другое число.")
 
 
 async def check_url_accessibility(url: str) -> bool:
@@ -155,24 +164,35 @@ async def process_button_url(message: Message, state: FSMContext):
     await state.clear()
 
 
-
 @router.message(F.text == 'Получить список всех кнопок')
-async def show_all_buttons(message: Message):
+async def show_all_buttons(message: Message, state: FSMContext):
     if message.from_user.id != BOT_ADMIN_ID:
         await message.answer('Только для администратора')
         await message.delete()
         return
+
+    data = await state.get_data()
+    amount_of_buttons = data.get('amount_of_buttons', 0)
+
+    if amount_of_buttons <= 0:
+        await message.answer('Сначала установите количество динамических кнопок.')
+        return
+
     buttons = await Button.get_all_buttons()
+
     if not buttons:
         await message.answer("Список кнопок пуст.")
         return
+
+    amount_of_buttons = min(amount_of_buttons, len(buttons))
+    random_buttons = random.sample(buttons, amount_of_buttons)
     keyboard_buttons = [
         [InlineKeyboardButton(text=button.name, url=str(button.url))]
-        for button in buttons
+        for button in random_buttons
     ]
     keyboard = InlineKeyboardMarkup(inline_keyboard=keyboard_buttons)
 
-    await message.answer("Список всех кнопок:", reply_markup=keyboard)
+    await message.answer("Список кнопок:", reply_markup=keyboard)
 
 
 @router.message(F.text == 'Удалить лишние кнопки')
