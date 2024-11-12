@@ -1,4 +1,4 @@
-from venv import logger
+from src.config import logger
 
 from aiogram import F, Router
 from aiogram.types import Message
@@ -21,3 +21,4 @@ async def welcome_new_member(message: Message):
             reply_markup=(await welcome_keyboard())
         )
 
+    await message.delete()
