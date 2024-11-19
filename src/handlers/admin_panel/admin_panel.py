@@ -10,7 +10,7 @@ from src.utils.keyboards.admin import admin_panel_kb
 router = Router()
 
 
-@router.message(Command('start'))
+@router.message(Command('admin'))
 @router.message(F.text == 'Вернуться в меню')
 async def admin_panel(message: Message, state: FSMContext):
     logger.debug(f'ID пользователя: {message.from_user.id}')
