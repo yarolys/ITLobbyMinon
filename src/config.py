@@ -21,3 +21,5 @@ bot = Bot(
         default=DefaultBotProperties(parse_mode='HTML')
 )
 BOT_ADMIN_ID = int(os.getenv('BOT_ADMIN_ID'))
+
+
