@@ -5,6 +5,7 @@ from aiogram.filters import Command
 
 from src.config import logger
 from src.database.models import DbUser
+from src.config import BOT_ADMIN_ID
 
 
 router = Router()
@@ -19,12 +20,12 @@ async def start(message: Message):
         logger.debug(
             f'Пользователь({message.from_user.full_name}) с id: {message.from_user.id} добавлен в БД')
 
+    if message.from_user.id == BOT_ADMIN_ID:
+        await message.answer('Для запуска админки нажми /admin')
+    else:
         await message.answer(
             'Салам, пока что этот бот доступен только для администраторов, позже мы будем '
             'делать рассылки через него'
         )
-    else:
-        await message.answer(
-            'Когда добавим - будет рассылка)) Жди)'
-        )
+
     await message.delete()
