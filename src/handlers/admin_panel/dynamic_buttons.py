@@ -3,12 +3,12 @@ import aiohttp
 
 from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 
 from src.config import BOT_ADMIN_ID
 from src.states.admin import FSM_DynamicButtons
 from src.utils.keyboards.admin import get_buttons_for_delete, get_buttons_kb, \
-    working_with_buttons_kb
+    working_with_buttons_kb, admin_panel_kb, main_menu
 from src.utils.keyboards.join2group import welcome_keyboard
 from src.database.models import DbButton
 from src.config import logger
@@ -39,7 +39,7 @@ async def static_buttons(message: Message, state: FSMContext):
         await message.delete()
         return
     await message.answer(
-        'Работа со динамическими кнопками',
+        'Работа с динамическими кнопками',
         reply_markup=working_with_buttons_kb
     )
     await message.delete()
@@ -111,7 +111,8 @@ async def delete_static_buttons(qq: CallbackQuery):
 async def add_new_static_button(message: Message, state: FSMContext):
     await state.set_state(FSM_DynamicButtons.get_button_name)
     await message.answer(
-        'Отправь мне текст кнопки(Не больше 20 символов)'
+        'Отправь мне текст кнопки(Не больше 20 символов)',
+        reply_markup=main_menu
     )
 
 
@@ -121,7 +122,7 @@ async def get_button_name(message: Message, state: FSMContext):
     await state.set_data({'button_name': message.text})
     await state.set_state(FSM_DynamicButtons.get_button_link)
     await message.answer(
-        'Отлично, отправь мне ссылку для кнопки(не более 44 символов)'
+        'Отлично, отправь мне ссылку для кнопки(не более 44 символов)',
     )
 
 
@@ -147,9 +148,15 @@ async def get_button_link(message: Message, state: FSMContext):
         url=button_url,
         type=BTE.dynamic
     )
+    await state.clear()
+
     await message.answer(
         'Кнопка добавлена',
-        reply_markup=(await get_buttons_kb(dynamic=True))
+        reply_markup=(await get_buttons_kb(dynamic=True)),
+    )
+    await message.answer(
+        'Возвращение в динамические кнопки',
+        reply_markup=working_with_buttons_kb
     )
 
-    await state.clear()
+    await state.set_state(FSM_DynamicButtons.working_with_buttons)
