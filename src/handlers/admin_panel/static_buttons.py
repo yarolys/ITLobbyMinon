@@ -10,7 +10,7 @@ from src.database.models import DbButton
 from src.schemas import ButtonTypeEnum as BTE
 from src.states.admin import FSM_StaticButtons
 from src.utils.keyboards.admin import get_buttons_for_delete, get_buttons_kb, \
-    working_with_buttons_kb
+    working_with_buttons_kb, main_menu, admin_panel_kb
 from src.utils.keyboards.join2group import welcome_keyboard
 from src.handlers.admin_panel.dynamic_buttons import check_url_accessibility
 
@@ -97,7 +97,8 @@ async def delete_static_buttons(qq: CallbackQuery):
 async def add_new_static_button(message: Message, state: FSMContext):
     await state.set_state(FSM_StaticButtons.get_button_name)
     await message.answer(
-        'Отправь мне текст кнопки(Не больше 20 символов)'
+        'Отправь мне текст кнопки(Не больше 20 символов)',
+        reply_markup=main_menu
     )
 
 
@@ -133,9 +134,15 @@ async def get_button_link(message: Message, state: FSMContext):
         url=button_url,
         type=BTE.static
     )
+    await state.clear()
+
     await message.answer(
         'Кнопка добавлена',
         reply_markup=(await get_buttons_kb(static=True))
     )
+    await message.answer(
+        'Возвращение в статические кнопки',
+        reply_markup=working_with_buttons_kb
+    )
 
-    await state.clear()
+    await state.set_state(FSM_StaticButtons.working_with_buttons)
