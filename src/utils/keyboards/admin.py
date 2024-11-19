@@ -1,5 +1,7 @@
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from telebot.types import ReplyKeyboardRemove
+
 from src.schemas import ButtonTypeEnum as BTE
 from src.database.models import DbButton
 
@@ -22,7 +24,12 @@ working_with_buttons_kb = ReplyKeyboardMarkup(
         [KeyboardButton(text='Вернуться в меню')]
     ]
 )
-
+main_menu = ReplyKeyboardMarkup(
+    resize_keyboard=True,
+    keyboard=[
+        [KeyboardButton(text='Вернуться в меню')]
+    ]
+)
 
 async def get_buttons_kb(static: bool = False, dynamic: bool = False):
     if not (static or dynamic):
